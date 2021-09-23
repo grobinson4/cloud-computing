@@ -25,3 +25,5 @@ $PropertiesObject = @{
     isManualIntegration = "true";
 }
 Set-AzResource -Properties $PropertiesObject -ResourceGroupName myResourceGroup -ResourceType Microsoft.Web/sites/sourcecontrols -ResourceName $webappname/web -ApiVersion 2015-08-01 -Force
+
+
