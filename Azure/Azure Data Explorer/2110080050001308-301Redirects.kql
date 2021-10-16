@@ -1,0 +1,10 @@
+AntaresIISLogFrontEndTable
+        | where PreciseTimeStamp >= datetime(2021-10-11 00:00:00) and PreciseTimeStamp <= datetime(2021-10-12 13:40:00) and EventPrimaryStampName=~"waws-prod-am2-465"
+        //| where User_agent != 'AlwaysOn'
+        | where Sc_status >= 300 and Sc_status <=399
+        | where S_sitename =~ 'wordpress-in' or S_sitename startswith 'wordpress-in__'
+            | extend S_sitename = iif(S_sitename == '-', Cs_host, S_sitename)
+            | where Cs_host !has '.scm.'
+        | project TIMESTAMP, S_sitename, Cs_method, Cs_host,S_port, User_agent, Cs_uri_stem, C_ip, ServerRouted, Sc_status, Sc_substatus, Sc_win32_status,WorkerHttpStatus, Time_taken
+        | order by TIMESTAMP asc
+        | take 1000

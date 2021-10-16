@@ -1,0 +1,15 @@
+{
+    "cells": [
+        {
+            "kind": "code",
+            "source": "let app_service = 'wordpress-in';\r\nlet stamp = \"waws-prod-am2-465\";\r\nlet start_date = datetime(2021-10-12 00:00:00);\r\nlet end_date = datetime(2021-10-12 13:40:00);\r\nAntaresIISLogFrontEndTable\r\n| where PreciseTimeStamp >= start_date and PreciseTimeStamp <= end_date and EventPrimaryStampName =~ stamp\r\n| where Sc_status >= 200 and Sc_status <=299\r\n| where S_sitename =~ app_service or S_sitename startswith app_service\r\n| extend S_sitename = iif(S_sitename == '-', Cs_host, S_sitename)\r\n| where Cs_host !has '.scm.'\r\n| project TIMESTAMP, S_sitename, Cs_method, Cs_host,S_port, User_agent, Cs_uri_stem, C_ip, ServerRouted, Sc_status, Sc_substatus, Sc_win32_status,WorkerHttpStatus, Time_taken\r\n| order by TIMESTAMP asc\r\n| take 1000",
+            "outputs": []
+        }
+    ],
+    "metadata": {
+        "connection": {
+            "cluster": "https://wawsweu.kusto.windows.net",
+            "database": "wawsprod"
+        }
+    }
+}

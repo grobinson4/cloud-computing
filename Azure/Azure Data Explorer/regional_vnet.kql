@@ -1,0 +1,5 @@
+//Regional VNET Swift table
+Swift
+| where TIMESTAMP >= datetime(2021-07-15T00:00:00Z) and TIMESTAMP <= datetime(2021-07-16T20:00:00)
+| where VnetId contains "1262b01b-164d-49ff-9043-0d2d2d7b3859"
+| project TIMESTAMP,  VnetId, EventPrimaryStampName, EventMessage, ConnectionErrorCode, LogStatement, ConnectionResult, FailureReason, PingSuccesses

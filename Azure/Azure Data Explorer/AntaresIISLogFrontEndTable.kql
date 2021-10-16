@@ -1,0 +1,14 @@
+// IIS Log FrontEnd 
+let app_service = 'wordpress-in';
+let stamp = "waws-prod-am2-465";
+let start_date = datetime(2021-10-12 00:00:00);
+let end_date = datetime(2021-10-12 13:40:00);
+AntaresIISLogFrontEndTable
+| where PreciseTimeStamp >= start_date and PreciseTimeStamp <= end_date and EventPrimaryStampName =~ stamp
+| where Sc_status >= 200 and Sc_status <=299
+| where S_sitename =~ app_service or S_sitename startswith app_service
+| extend S_sitename = iif(S_sitename == '-', Cs_host, S_sitename)
+| where Cs_host !has '.scm.'
+| project TIMESTAMP, S_sitename, Cs_method, Cs_host,S_port, User_agent, Cs_uri_stem, C_ip, ServerRouted, Sc_status, Sc_substatus, Sc_win32_status,WorkerHttpStatus, Time_taken
+| order by TIMESTAMP asc
+| take 1000
