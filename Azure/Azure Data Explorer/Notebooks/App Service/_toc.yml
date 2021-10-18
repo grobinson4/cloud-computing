@@ -2,3 +2,5 @@
   file: /README
 - title: Networking
   file: /privateEndpoint_serviceEdpoint
+- title: AntaresIISLogFrontEndTable
+  file: /AntaresIISLogFrontEndTable
